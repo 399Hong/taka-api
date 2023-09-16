@@ -1,0 +1,49 @@
+type BasicInfo {
+	Name             string   `json:"name"`
+	ResidingLocation string   `json:"residing_location"`
+	Tags             []string `json:"tag"`
+	MatchingScore    int8     `json:"matching_score"`
+	Personality      string   `json:"personality"`
+
+	EducationHistory []Education       `json:"education_history"`
+	WorkHistory      []Work            `json:"work_history"`
+	OtherExperience  []OtherExperience `json:"other_experience"`
+}
+
+type Education {
+	Level       int8   `json:"level"`
+	Provider    string `json:"provider"`
+	Discription string `json:"discription"`
+	Gpa         string `json:"gpa"`
+}
+
+type Work {
+	CompanyName string `json:"company_name"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+}
+
+type OtherExperience {
+	Description string `json:"description"`
+}
+
+type (
+	request {
+		Id string `form:"id"`
+	}
+
+	response {
+		BasicInfo
+	}
+)
+
+@server (
+	// Define a timeout configuration with a timeout duration of 3 seconds, which can be filled in as a string form of time.Duration here, for details, please refer to
+	// https://pkg.go.dev/time#Duration.String
+	timeout: 3s
+)
+
+service taka-api {
+	@handler GetProfile
+	get /profile/elser (request) returns (response)
+}

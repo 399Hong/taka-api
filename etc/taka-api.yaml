@@ -1,0 +1,5 @@
+Name: taka-api
+Host: 0.0.0.0
+Port: 8888
+Mysql:
+  DataSource: root:12345678@tcp(127.0.0.1:3306)/taka?parseTime=true

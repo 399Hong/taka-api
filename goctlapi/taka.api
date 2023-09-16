@@ -1,0 +1,4 @@
+syntax = "v1"
+
+import "user.api"
+import "profile.api"

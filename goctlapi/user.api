@@ -1,0 +1,23 @@
+type (
+	SignUpRequest {
+		AuthType int `form:"authType"`
+		Token string `form:"token"`
+	}
+
+	SignUpResponse {
+		AccessToken  string `json:"accessToken"`
+		RefreshToken string `json:"refreshToken"`
+		UserInfo interface{} `json:"userInfo"`
+	}
+)
+
+@server (
+	// Define a timeout configuration with a timeout duration of 3 seconds, which can be filled in as a string form of time.Duration here, for details, please refer to
+	// https://pkg.go.dev/time#Duration.String
+	timeout: 3s
+)
+
+service taka-api {
+	@handler SignUp
+	post /signup (SignUpRequest) returns (SignUpResponse)
+}
