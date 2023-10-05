@@ -8,10 +8,10 @@ const (
 	Female
 )
 
-type Type int64
+type RoleType int64
 
 // need to revisit
 const (
-	Candidate Type = iota
-	employer
+	Candidate RoleType = iota + 1
+	Employer
 )

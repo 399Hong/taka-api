@@ -4,9 +4,24 @@ package types
 type SignUpRequest struct {
 	AuthType int    `form:"authType"`
 	Token    string `form:"token"`
+	Email    string `form:"email"`
+	Password string `form:"password"`
+}
+
+type LoginRequest struct {
+	AuthType int    `form:"authType"`
+	Token    string `form:"token"`
+	Email    string `form:"email"`
+	Password string `form:"password"`
 }
 
 type SignUpResponse struct {
+	AccessToken  string      `json:"accessToken"`
+	RefreshToken string      `json:"refreshToken"`
+	UserInfo     interface{} `json:"userInfo"`
+}
+
+type LoginResponse struct {
 	AccessToken  string      `json:"accessToken"`
 	RefreshToken string      `json:"refreshToken"`
 	UserInfo     interface{} `json:"userInfo"`

@@ -2,30 +2,30 @@ package logic
 
 import (
 	"context"
-	"github.com/zeromicro/go-zero/core/logx"
 	"taka-api/internal/domains/accesscontrol"
+
 	"taka-api/internal/svc"
 	"taka-api/internal/types"
+
+	"github.com/zeromicro/go-zero/core/logx"
 )
 
-type SignUpLogic struct {
+type LoginLogic struct {
 	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
 }
 
-func NewSignUpLogic(ctx context.Context, svcCtx *svc.ServiceContext) *SignUpLogic {
-	return &SignUpLogic{
+func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic {
+	return &LoginLogic{
 		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
 	}
 }
 
-// // https://developers.google.com/oauthplayground/?code=4%2F0Adeu5BXqxXjO2ibtouj5WP7giY6PZp5Mqu-luxlwT_UshiQiAlP_IR1Ns6gnedH8Y5mb-Q&scope=profile+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile
-// // get token need to add email scope
-func (l *SignUpLogic) SignUp(req *types.SignUpRequest) (resp *types.SignUpResponse, err error) {
-	accessor, err := l.svcCtx.AccessCtrlSvc.SignUp(l.ctx, accesscontrol.AccessMethod{
+func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, err error) {
+	accessor, err := l.svcCtx.AccessCtrlSvc.LogIn(l.ctx, accesscontrol.AccessMethod{
 		AccessOption: accesscontrol.AccessOption(req.AuthType),
 		Token:        req.Token,
 	})
@@ -50,7 +50,7 @@ func (l *SignUpLogic) SignUp(req *types.SignUpRequest) (resp *types.SignUpRespon
 		return nil, err
 	}
 
-	return &types.SignUpResponse{
+	return &types.LoginResponse{
 		AccessToken:  accessToken,
 		RefreshToken: "NotImplemented",
 		UserInfo:     nil,

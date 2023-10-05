@@ -2,10 +2,27 @@ type (
 	SignUpRequest {
 		AuthType int `form:"authType"`
 		Token string `form:"token"`
+		Email string `form:"email"`
+		Password string`form:"password"`
+	}
+
+	LoginRequest {
+		AuthType int `form:"authType"`
+		Token string `form:"token"`
+		Email string `form:"email"`
+		Password string`form:"password"`
 	}
 
 	SignUpResponse {
 		AccessToken  string `json:"accessToken"`
+		//TODO add expires in
+		RefreshToken string `json:"refreshToken"`
+		UserInfo interface{} `json:"userInfo"`
+	}
+
+	LoginResponse {
+		AccessToken  string `json:"accessToken"`
+		//TODO add expires in
 		RefreshToken string `json:"refreshToken"`
 		UserInfo interface{} `json:"userInfo"`
 	}
@@ -20,4 +37,7 @@ type (
 service taka-api {
 	@handler SignUp
 	post /signup (SignUpRequest) returns (SignUpResponse)
+
+	@handler Login
+	post /Login (LoginRequest) returns (LoginResponse)
 }

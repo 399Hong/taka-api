@@ -1,4 +1,6 @@
 syntax = "v1"
-
+// goctl api go -api goctlapi/taka.api -dir .
+// -api {api file location}
+// -dir {generated file location}
 import "user.api"
 import "profile.api"

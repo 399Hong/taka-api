@@ -1,4 +1,4 @@
-package signon
+package singlesignon
 
 import (
 	"context"

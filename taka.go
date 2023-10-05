@@ -3,6 +3,8 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/zeromicro/go-zero/rest/httpx"
+	"net/http"
 	"taka-api/internal/config"
 	"taka-api/internal/handler"
 	"taka-api/internal/svc"
@@ -27,4 +29,16 @@ func main() {
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()
+}
+
+func customizeHttpErrorHandling() {
+	httpx.SetErrorHandler(func(err error) (int, interface{}) {
+		switch _ := err.(type) {
+		// wrap/convert specific error befor sending back
+		//case *errorx.BatchError:
+		//	return http.StatusOK, e.Data()
+		default:
+			return http.StatusInternalServerError, nil
+		}
+	})
 }

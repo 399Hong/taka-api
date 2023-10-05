@@ -1,9 +1,9 @@
-package signon
+package singlesignon
 
 type AuthType int
 
 const (
-	Native AuthType = iota + 1
+	Password AuthType = iota + 1
 	Google
 )
 

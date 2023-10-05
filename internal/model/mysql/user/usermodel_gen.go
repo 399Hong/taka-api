@@ -45,7 +45,7 @@ type (
 		Mobile    string    `db:"mobile"`
 		Gender    int64     `db:"gender"` // unknown(0), male(1), female(2)
 		Email     string    `db:"email"`
-		Type      int64     `db:"type"` // candidate(0), employer(1)
+		Type      int64     `db:"type"` // notSpecified(0), candidate(1) employer(2)
 		CreateAt  time.Time `db:"create_at"`
 		UpdateAt  time.Time `db:"update_at"`
 	}

@@ -7,4 +7,8 @@ type Config struct {
 	Mysql struct { //more config
 		DataSource string
 	}
+	Auth struct {
+		AccessSecret string
+		ExpiresInSec int64
+	}
 }

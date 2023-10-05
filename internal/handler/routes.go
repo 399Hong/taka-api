@@ -18,6 +18,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/signup",
 				Handler: SignUpHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/Login",
+				Handler: LoginHandler(serverCtx),
+			},
 		},
 		rest.WithTimeout(3000*time.Millisecond),
 	)
