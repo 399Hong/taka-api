@@ -6,9 +6,9 @@ import (
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/zeromicro/go-zero/core/errorx"
 	"github.com/zeromicro/go-zero/core/hash"
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
-	"taka-api/internal/domains/accesscontrol/accesscontroinfra"
 	"time"
 )
 
@@ -39,14 +39,14 @@ func WithMemoryUserRepository() Config {
 
 func WithMySqlUserRepo(conn sqlx.SqlConn) Config {
 	return func(s *Service) error {
-		s.UserRepo = accesscontroinfra.NewMySqlRepo(conn)
+		s.UserRepo = NewMySqlRepo(conn)
 		return nil
 	}
 }
 
 func WithSsoAuthenticator() Config {
 	return func(s *Service) error {
-		s.SsoAuthenticator = accesscontroinfra.NewSsoAuthenticator()
+		s.SsoAuthenticator = NewSsoAuthenticator()
 		return nil
 	}
 }
@@ -130,7 +130,12 @@ func (s *Service) authenticateAndCreateAccessor(ctx context.Context, method Acce
 }
 
 func (s *Service) CreateJwtToken(secret string, expiresInSec, uid int64) (string, error) {
-	if len(secret) != 0 && expiresInSec != 0 && uid != 0 {
+	if len(secret) == 0 && expiresInSec != 0 {
+		logx.Errorf("unable to create JWT token due to secret is not provided or unspecified expiry time")
+		return "", errors.New("unable to create JWT token")
+	}
+	if uid == 0 {
+		logx.Errorf("unable to create token as user id is 0")
 		return "", errors.New("unable to create JWT token")
 	}
 	claims := make(jwt.MapClaims)

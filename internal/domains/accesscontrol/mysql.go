@@ -1,9 +1,8 @@
-package accesscontroinfra
+package accesscontrol
 
 import (
 	"context"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
-	"taka-api/internal/domains/accesscontrol"
 	"taka-api/internal/model/mysql/user"
 )
 
@@ -15,7 +14,7 @@ func NewMySqlRepo(conn sqlx.SqlConn) *MySqlRepo {
 	return &MySqlRepo{user.NewUserModel(conn)}
 }
 
-func (m *MySqlRepo) Add(ctx context.Context, accessor *accesscontrol.Accessor) (*accesscontrol.Accessor, error) {
+func (m *MySqlRepo) Add(ctx context.Context, accessor *Accessor) (*Accessor, error) {
 	newUser := &user.User{
 		Password: accessor.Password,
 		Email:    accessor.Email,
@@ -33,19 +32,19 @@ func (m *MySqlRepo) Add(ctx context.Context, accessor *accesscontrol.Accessor) (
 	return accessor, nil
 }
 
-func (m *MySqlRepo) GetById(ctx context.Context, id int64) (*accesscontrol.User, error) {
+func (m *MySqlRepo) GetById(ctx context.Context, id int64) (*User, error) {
 	user, err := m.FindOne(ctx, id)
 	if err != nil {
 		return nil, err
 	}
 
-	return &accesscontrol.User{Id: user.Id, Password: user.Password, Email: user.Email}, nil
+	return &User{Id: user.Id, Password: user.Password, Email: user.Email}, nil
 }
 
-func (m *MySqlRepo) GetByEmail(ctx context.Context, email string) (*accesscontrol.User, error) {
+func (m *MySqlRepo) GetByEmail(ctx context.Context, email string) (*User, error) {
 	user, err := m.FindOneByEmail(ctx, email)
 	if err != nil {
 		return nil, err
 	}
-	return &accesscontrol.User{Id: user.Id, Password: user.Password, Email: user.Email}, nil
+	return &User{Id: user.Id, Password: user.Password, Email: user.Email}, nil
 }

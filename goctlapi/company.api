@@ -1,0 +1,29 @@
+type (
+    CompanyRegisterationReq {
+        Phone string `form:"phone"`
+        FirstName string `form:"firstName"`
+        LastName string `form:"lastName"`
+        CompanyName string `form:"companyName"`
+        CompanyDesc string `form:"companyDesc"`
+        Industry int64 `form:"industry"`
+        CompanySize int64 `form:"companySize"`
+        CompanyValue int64 `form:"companyValue"`
+    }
+
+    CompanyRegisterationResp{
+    }
+)
+
+@server (
+    // Define a timeout configuration with a timeout duration of 3 seconds, which can be filled in as a string form of time.Duration here, for details, please refer to
+    // https://pkg.go.dev/time#Duration.String
+    timeout: 3s
+    jwt: Auth
+    prefix: /v1
+    group:  company
+)
+
+service taka-api {
+    @handler RegisterCompany
+    post /company/register (CompanyRegisterationReq) returns (CompanyRegisterationResp)
+}

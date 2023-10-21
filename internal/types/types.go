@@ -3,16 +3,16 @@ package types
 
 type SignUpRequest struct {
 	AuthType int    `form:"authType"`
-	Token    string `form:"token"`
-	Email    string `form:"email"`
-	Password string `form:"password"`
+	Token    string `form:"token,optional"`
+	Email    string `form:"email,optional"`
+	Password string `form:"password,optional"`
 }
 
 type LoginRequest struct {
 	AuthType int    `form:"authType"`
-	Token    string `form:"token"`
-	Email    string `form:"email"`
-	Password string `form:"password"`
+	Token    string `form:"token,optional"`
+	Email    string `form:"email,optional"`
+	Password string `form:"password,optional"`
 }
 
 type SignUpResponse struct {
@@ -61,4 +61,18 @@ type Request struct {
 
 type Response struct {
 	BasicInfo
+}
+
+type CompanyRegisterationReq struct {
+	Phone        string `form:"phone"`
+	FirstName    string `form:"firstName"`
+	LastName     string `form:"lastName"`
+	CompanyName  string `form:"companyName"`
+	CompanyDesc  string `form:"companyDesc"`
+	Industry     int64  `form:"industry"`
+	CompanySize  int64  `form:"companySize"`
+	CompanyValue int64  `form:"companyValue"`
+}
+
+type CompanyRegisterationResp struct {
 }

@@ -1,4 +1,4 @@
-package logic
+package user
 
 import (
 	"context"
@@ -25,9 +25,12 @@ func NewLoginLogic(ctx context.Context, svcCtx *svc.ServiceContext) *LoginLogic 
 }
 
 func (l *LoginLogic) Login(req *types.LoginRequest) (resp *types.LoginResponse, err error) {
+	l.Logger.Debugf("loging user %+v", req)
 	accessor, err := l.svcCtx.AccessCtrlSvc.LogIn(l.ctx, accesscontrol.AccessMethod{
 		AccessOption: accesscontrol.AccessOption(req.AuthType),
 		Token:        req.Token,
+		Email:        req.Email,
+		Password:     req.Password,
 	})
 	if err != nil {
 		l.Logger.Error(err)

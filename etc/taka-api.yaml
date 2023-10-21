@@ -4,5 +4,5 @@ Port: 8888
 Mysql:
   DataSource: root:12345678@tcp(127.0.0.1:3306)/taka?parseTime=true
 Auth:
-  AccessSecret: secret
+  AccessSecret: secret12345
   ExpiresInSec: 36000

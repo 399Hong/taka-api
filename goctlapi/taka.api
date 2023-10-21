@@ -4,3 +4,4 @@ syntax = "v1"
 // -dir {generated file location}
 import "user.api"
 import "profile.api"
+import "company.api"

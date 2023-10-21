@@ -1,10 +1,10 @@
-package handler
+package user
 
 import (
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"taka-api/internal/logic"
+	"taka-api/internal/logic/user"
 	"taka-api/internal/svc"
 	"taka-api/internal/types"
 )
@@ -17,7 +17,7 @@ func SignUpHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := logic.NewSignUpLogic(r.Context(), svcCtx)
+		l := user.NewSignUpLogic(r.Context(), svcCtx)
 		resp, err := l.SignUp(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
