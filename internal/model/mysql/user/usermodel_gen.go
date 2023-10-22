@@ -27,7 +27,6 @@ type (
 		Insert(ctx context.Context, data *User) (sql.Result, error)
 		FindOne(ctx context.Context, id int64) (*User, error)
 		FindOneByEmail(ctx context.Context, email string) (*User, error)
-		FindOneByMobile(ctx context.Context, mobile string) (*User, error)
 		Update(ctx context.Context, data *User) error
 		Delete(ctx context.Context, id int64) error
 	}
@@ -89,20 +88,6 @@ func (m *defaultUserModel) FindOneByEmail(ctx context.Context, email string) (*U
 	var resp User
 	query := fmt.Sprintf("select %s from %s where `email` = ? limit 1", userRows, m.table)
 	err := m.conn.QueryRowCtx(ctx, &resp, query, email)
-	switch err {
-	case nil:
-		return &resp, nil
-	case sqlc.ErrNotFound:
-		return nil, ErrNotFound
-	default:
-		return nil, err
-	}
-}
-
-func (m *defaultUserModel) FindOneByMobile(ctx context.Context, mobile string) (*User, error) {
-	var resp User
-	query := fmt.Sprintf("select %s from %s where `mobile` = ? limit 1", userRows, m.table)
-	err := m.conn.QueryRowCtx(ctx, &resp, query, mobile)
 	switch err {
 	case nil:
 		return &resp, nil
