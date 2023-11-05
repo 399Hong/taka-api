@@ -5,6 +5,8 @@ To generate model code for table
     - --src {folderLocation}/{table}.sql
     - --dir {folderLocation}
 
+goctl doesn't allow foreign key definition in DDL to generate code, use --datasource {connectionString}**
+
 For Example:
 ```bash
  goctl model mysql ddl --src internal/model/mysql/user/user.sql --dir internal/model/mysql/user    

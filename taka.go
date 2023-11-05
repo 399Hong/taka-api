@@ -6,6 +6,7 @@ import (
 	"github.com/zeromicro/go-zero/core/logc"
 	"taka-api/internal/config"
 	"taka-api/internal/handler"
+	"taka-api/internal/pkg/websocket"
 	"taka-api/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
@@ -27,8 +28,12 @@ func main() {
 	server := rest.MustNewServer(c.RestConf)
 	defer server.Stop()
 
+	hub := websocket.NewHub()
+	go hub.Run()
+
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
+	handler.RegisterWsHandlers(server, ctx, hub)
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()

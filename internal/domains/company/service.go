@@ -39,11 +39,32 @@ func WithMySqlCompanyRepo(conn sqlx.SqlConn) Config {
 	}
 }
 
-func (s *Service) Register(ctx context.Context, register Register) (*Register, error) {
-	_, err := s.CompanyRepo.Register(ctx, &register)
+func (s *Service) Register(ctx context.Context, register *Register) (*Register, error) {
+	if register == nil {
+		return nil, errors.New("no register is set")
+	}
+
+	company, err := s.GetByHeadUserId(ctx, register.HeadUserID)
+	if err != nil && !errors.Is(err, sqlc.ErrNotFound) {
+		return nil, errorx.Wrap(err, "unable to register a company for the user")
+	}
+	if company != nil {
+		return nil, errors.New("user has already registered a company")
+	}
+
+	register, err = s.Register(ctx, register)
 	if err != nil && err != sqlc.ErrNotFound {
 		return nil, errorx.Wrap(err, "unable to register company for the user")
 	}
-	//TODO no need to response with cmp info
-	return nil, nil
+
+	if err != nil {
+		return nil, errorx.Wrap(err, "unable to register company for the user")
+	}
+
+	err = s.UpdateCompanyHeadUserInfo(ctx, &register.HeadUser)
+	if err != nil {
+		// TODO wrap error
+		return nil, err
+	}
+	return register, nil
 }
